@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Hackerbrief
 
-## Getting Started
+Daily Hacker News front-page digest powered by:
 
-First, run the development server:
+- HN Algolia API (`tags=front_page`)
+- Vercel Sandbox (`@vercel/sandbox`) to run `summarize` CLI with Gemini
+- Vercel Blob SDK (`@vercel/blob`) with private JSON blobs overwritten once per day
+
+## Environment Variables
+
+Set these in Vercel project settings:
+
+- `GEMINI_API_KEY` (or `GOOGLE_GENERATIVE_AI_API_KEY`)
+- `BLOB_READ_WRITE_TOKEN`
+- `CRON_SECRET` (recommended for cron route protection)
+- `DIGEST_READ_SECRET` (optional; defaults to `CRON_SECRET` when not set)
+- `DIGEST_MAX_ITEMS` (optional, default `20`)
+- `GEMINI_REQUESTS_PER_MINUTE` (optional, default `5`)
+- `DIGEST_RUNTIME_BUDGET_SECONDS` (optional, default `280`)
+- `SUMMARIZE_SNAPSHOT_ID` (optional; force a specific snapshot ID)
+
+## How It Works
+
+1. Vercel cron calls `GET /api/cron/digest` every day (`0 0 * * *` in `vercel.json`).
+2. The route fetches front-page items from the last 24h via `https://hn.algolia.com/api/v1/search_by_date?tags=front_page`.
+3. The job reuses a sandbox snapshot with `@steipete/summarize` preinstalled.
+4. If no usable snapshot exists, it installs once, creates a snapshot, and stores snapshot ID in private blob state.
+5. Each URL is summarized in the snapshot-backed sandbox using Gemini.
+6. Result JSON is uploaded to private Vercel Blob at `digests/frontpage-latest.json` with overwrite enabled.
+7. Frontend reads and renders the latest private blob content server-side.
+
+## Local Development
+
+Run the app:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To run a digest manually:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+curl -H "Authorization: Bearer $CRON_SECRET" http://localhost:3000/api/cron/digest
+```
 
-## Learn More
+Digest endpoint (token-protected if `CRON_SECRET` or `DIGEST_READ_SECRET` is set):
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `GET /api/digest`
