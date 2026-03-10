@@ -4,10 +4,13 @@ import { Sandbox } from "@vercel/sandbox";
 const HN_API_BASE = "https://hn.algolia.com/api/v1";
 export const DIGEST_BLOB_PATH = "digests/frontpage-latest.json";
 const SNAPSHOT_STATE_PATH = "state/summarize-snapshot.txt";
+const DIGEST_RUN_STATE_PATH = "state/frontpage-run-state.json";
 const SANDBOX_TIMEOUT_MS = 60_000 * 20;
 const DEFAULT_REQUESTS_PER_MINUTE = 5;
 const DEFAULT_RUNTIME_BUDGET_SECONDS = 280;
 const DEFAULT_MAX_ITEMS = 20;
+const DEFAULT_CHUNK_MAX_ITEMS = 8;
+const DEADLINE_BUFFER_MS = 15_000;
 
 export type DigestItem = {
   objectID: string;
@@ -39,6 +42,33 @@ type HNHit = {
   points: number | null;
   num_comments: number | null;
   created_at: string;
+};
+
+type DigestRunStatus = "running" | "completed";
+
+type DigestRunState = {
+  runId: string;
+  status: DigestRunStatus;
+  source: string;
+  windowStart: string;
+  windowEnd: string;
+  startedAt: string;
+  updatedAt: string;
+  finishedAt: string | null;
+  totalItems: number;
+  nextIndex: number;
+  itemsToSummarize: Array<Omit<DigestItem, "summary" | "error">>;
+  completedItems: DigestItem[];
+};
+
+export type DigestChunkResult = {
+  runId: string;
+  status: "in_progress" | "completed";
+  processedThisChunk: number;
+  itemCount: number;
+  remainingItems: number;
+  generatedAt: string;
+  blobUrl: string | null;
 };
 
 function getGeminiApiKey(): string {
@@ -105,6 +135,23 @@ async function readSnapshotIdFromBlob(): Promise<string | null> {
 
   const snapshotId = text.trim();
   return snapshotId.length > 0 ? snapshotId : null;
+}
+
+async function readDigestRunStateFromBlob(): Promise<DigestRunState | null> {
+  const text = await getPrivateBlobText(DIGEST_RUN_STATE_PATH);
+  if (!text) {
+    return null;
+  }
+
+  return JSON.parse(text) as DigestRunState;
+}
+
+async function writeDigestRunStateToBlob(state: DigestRunState): Promise<void> {
+  await putPrivateBlob(
+    DIGEST_RUN_STATE_PATH,
+    JSON.stringify(state),
+    "application/json"
+  );
 }
 
 async function writeSnapshotIdToBlob(snapshotId: string): Promise<void> {
@@ -315,6 +362,80 @@ function getEffectiveItemLimit(
   return Math.max(1, Math.min(requestedMaxItems, maxByBudget));
 }
 
+function getRequestedMaxItems(): number {
+  const maxItems = Number(process.env.DIGEST_MAX_ITEMS ?? String(DEFAULT_MAX_ITEMS));
+  return Number.isFinite(maxItems) ? Math.max(1, Math.floor(maxItems)) : DEFAULT_MAX_ITEMS;
+}
+
+function getRequestedChunkMaxItems(): number {
+  const chunkMaxItems = Number(
+    process.env.DIGEST_CHUNK_MAX_ITEMS ?? String(DEFAULT_CHUNK_MAX_ITEMS)
+  );
+  return Number.isFinite(chunkMaxItems)
+    ? Math.max(1, Math.floor(chunkMaxItems))
+    : DEFAULT_CHUNK_MAX_ITEMS;
+}
+
+function createEmptyRunState(nowIso: string): DigestRunState {
+  return {
+    runId: crypto.randomUUID(),
+    status: "running",
+    source: "https://hn.algolia.com/api/v1/search_by_date?tags=front_page",
+    windowStart: nowIso,
+    windowEnd: nowIso,
+    startedAt: nowIso,
+    updatedAt: nowIso,
+    finishedAt: null,
+    totalItems: 0,
+    nextIndex: 0,
+    itemsToSummarize: [],
+    completedItems: [],
+  };
+}
+
+async function initializeDailyRunState(): Promise<DigestRunState> {
+  const windowSeconds = 24 * 60 * 60;
+  const now = new Date();
+  const nowIso = now.toISOString();
+  const windowStart = new Date(
+    now.getTime() - windowSeconds * 1000
+  ).toISOString();
+  const hits = await fetchFrontPageHits(windowSeconds);
+  const normalized = hits.map(normalizeHit);
+  const requestedMaxItems = getRequestedMaxItems();
+  const itemsToSummarize = normalized.slice(0, requestedMaxItems);
+
+  const state = createEmptyRunState(nowIso);
+  state.windowStart = windowStart;
+  state.windowEnd = nowIso;
+  state.totalItems = itemsToSummarize.length;
+  state.itemsToSummarize = itemsToSummarize;
+  state.updatedAt = new Date().toISOString();
+  return state;
+}
+
+async function getOrCreateActiveRunState(): Promise<DigestRunState> {
+  const existing = await readDigestRunStateFromBlob();
+  if (existing && existing.status === "running") {
+    return existing;
+  }
+
+  const initialized = await initializeDailyRunState();
+  await writeDigestRunStateToBlob(initialized);
+  return initialized;
+}
+
+function finalizeDigestFromState(state: DigestRunState): FrontPageDigest {
+  return {
+    generatedAt: new Date().toISOString(),
+    windowStart: state.windowStart,
+    windowEnd: state.windowEnd,
+    itemCount: state.completedItems.length,
+    source: state.source,
+    items: state.completedItems,
+  };
+}
+
 export async function buildDailyDigest(): Promise<FrontPageDigest> {
   const windowSeconds = 24 * 60 * 60;
   const now = new Date();
@@ -371,6 +492,113 @@ export async function buildDailyDigest(): Promise<FrontPageDigest> {
     itemCount: items.length,
     source: "https://hn.algolia.com/api/v1/search_by_date?tags=front_page",
     items,
+  };
+}
+
+export async function runDailyDigestChunk(): Promise<DigestChunkResult> {
+  const startedAtMs = Date.now();
+  const geminiApiKey = getGeminiApiKey();
+  const { minIntervalMs, runtimeBudgetSeconds } = getRateLimitConfig();
+  const runtimeDeadlineMs =
+    startedAtMs + runtimeBudgetSeconds * 1000 - DEADLINE_BUFFER_MS;
+  const budgetItemLimit = getEffectiveItemLimit(
+    Number.MAX_SAFE_INTEGER,
+    minIntervalMs,
+    runtimeBudgetSeconds
+  );
+  const requestedChunkMaxItems = getRequestedChunkMaxItems();
+  const maxChunkItems = Math.max(
+    1,
+    Math.min(requestedChunkMaxItems, budgetItemLimit)
+  );
+
+  const state = await getOrCreateActiveRunState();
+  const remainingBefore = Math.max(0, state.totalItems - state.nextIndex);
+
+  if (remainingBefore === 0) {
+    const digest = finalizeDigestFromState(state);
+    const blob = await putDigestToBlob(digest);
+    state.status = "completed";
+    state.finishedAt = new Date().toISOString();
+    state.updatedAt = state.finishedAt;
+    await writeDigestRunStateToBlob(state);
+    return {
+      runId: state.runId,
+      status: "completed",
+      processedThisChunk: 0,
+      itemCount: digest.itemCount,
+      remainingItems: 0,
+      generatedAt: digest.generatedAt,
+      blobUrl: blob.url,
+    };
+  }
+
+  const sandbox = await createSnapshotBackedSandbox();
+  let processedThisChunk = 0;
+  try {
+    let nextAllowedAt = Date.now();
+    while (processedThisChunk < maxChunkItems) {
+      if (Date.now() >= runtimeDeadlineMs && processedThisChunk > 0) {
+        break;
+      }
+
+      const itemIndex = state.nextIndex + processedThisChunk;
+      if (itemIndex >= state.totalItems) {
+        break;
+      }
+
+      const item = state.itemsToSummarize[itemIndex];
+      const waitMs = Math.max(0, nextAllowedAt - Date.now());
+      if (waitMs > 0) {
+        await sleep(waitMs);
+      }
+
+      const summaryResult = await runSummarizeInSandbox(
+        sandbox,
+        item.url,
+        geminiApiKey
+      );
+      nextAllowedAt = Date.now() + minIntervalMs;
+      state.completedItems.push({
+        ...item,
+        summary: summaryResult.summary,
+        error: summaryResult.error,
+      });
+      processedThisChunk += 1;
+    }
+  } finally {
+    await sandbox.stop();
+  }
+
+  state.nextIndex += processedThisChunk;
+  state.updatedAt = new Date().toISOString();
+
+  const remainingAfter = Math.max(0, state.totalItems - state.nextIndex);
+  let blobUrl: string | null = null;
+  let status: DigestChunkResult["status"] = "in_progress";
+  let generatedAt = state.updatedAt;
+
+  if (remainingAfter === 0) {
+    const digest = finalizeDigestFromState(state);
+    const blob = await putDigestToBlob(digest);
+    blobUrl = blob.url;
+    generatedAt = digest.generatedAt;
+    status = "completed";
+    state.status = "completed";
+    state.finishedAt = new Date().toISOString();
+    state.updatedAt = state.finishedAt;
+  }
+
+  await writeDigestRunStateToBlob(state);
+
+  return {
+    runId: state.runId,
+    status,
+    processedThisChunk,
+    itemCount: state.completedItems.length,
+    remainingItems: remainingAfter,
+    generatedAt,
+    blobUrl,
   };
 }
 
