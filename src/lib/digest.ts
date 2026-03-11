@@ -71,6 +71,10 @@ export type DigestChunkResult = {
   blobUrl: string | null;
 };
 
+type RunDailyDigestChunkOptions = {
+  enforceChunkLimit?: boolean;
+};
+
 function getGeminiApiKey(): string {
   const key =
     process.env.GEMINI_API_KEY ?? process.env.GOOGLE_GENERATIVE_AI_API_KEY;
@@ -403,7 +407,13 @@ async function initializeDailyRunState(): Promise<DigestRunState> {
   const hits = await fetchFrontPageHits(windowSeconds);
   const normalized = hits.map(normalizeHit);
   const requestedMaxItems = getRequestedMaxItems();
-  const itemsToSummarize = normalized.slice(0, requestedMaxItems);
+  const { minIntervalMs, runtimeBudgetSeconds } = getRateLimitConfig();
+  const effectiveMaxItems = getEffectiveItemLimit(
+    requestedMaxItems,
+    minIntervalMs,
+    runtimeBudgetSeconds
+  );
+  const itemsToSummarize = normalized.slice(0, effectiveMaxItems);
 
   const state = createEmptyRunState(nowIso);
   state.windowStart = windowStart;
@@ -495,7 +505,9 @@ export async function buildDailyDigest(): Promise<FrontPageDigest> {
   };
 }
 
-export async function runDailyDigestChunk(): Promise<DigestChunkResult> {
+export async function runDailyDigestChunk(
+  options: RunDailyDigestChunkOptions = {}
+): Promise<DigestChunkResult> {
   const startedAtMs = Date.now();
   const geminiApiKey = getGeminiApiKey();
   const { minIntervalMs, runtimeBudgetSeconds } = getRateLimitConfig();
@@ -506,11 +518,11 @@ export async function runDailyDigestChunk(): Promise<DigestChunkResult> {
     minIntervalMs,
     runtimeBudgetSeconds
   );
+  const enforceChunkLimit = options.enforceChunkLimit ?? true;
   const requestedChunkMaxItems = getRequestedChunkMaxItems();
-  const maxChunkItems = Math.max(
-    1,
-    Math.min(requestedChunkMaxItems, budgetItemLimit)
-  );
+  const maxChunkItems = enforceChunkLimit
+    ? Math.max(1, Math.min(requestedChunkMaxItems, budgetItemLimit))
+    : Math.max(1, budgetItemLimit);
 
   const state = await getOrCreateActiveRunState();
   const remainingBefore = Math.max(0, state.totalItems - state.nextIndex);

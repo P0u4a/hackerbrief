@@ -21,7 +21,11 @@ export async function GET(req: Request) {
   }
 
   try {
-    const result = await runDailyDigestChunk();
+    const url = new URL(req.url);
+    const isContinuation = url.searchParams.get("continue") === "1";
+    const result = await runDailyDigestChunk({
+      enforceChunkLimit: isContinuation,
+    });
 
     if (result.status === "in_progress") {
       after(async () => {
