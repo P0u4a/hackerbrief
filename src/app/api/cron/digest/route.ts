@@ -1,5 +1,4 @@
-import { runDailyDigestChunk } from "@/lib/digest";
-import { after } from "next/server";
+import { buildDailyDigest, putDigestToBlob } from "@/lib/digest";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -21,44 +20,14 @@ export async function GET(req: Request) {
   }
 
   try {
-    const url = new URL(req.url);
-    const isContinuation = url.searchParams.get("continue") === "1";
-    const result = await runDailyDigestChunk({
-      enforceChunkLimit: isContinuation,
-    });
-
-    if (result.status === "in_progress") {
-      after(async () => {
-        const nextUrl = new URL(req.url);
-        nextUrl.searchParams.set("continue", "1");
-
-        const headers = new Headers();
-        const secret = process.env.CRON_SECRET;
-        if (secret) {
-          headers.set("authorization", `Bearer ${secret}`);
-        }
-
-        try {
-          await fetch(nextUrl.toString(), {
-            method: "GET",
-            headers,
-            cache: "no-store",
-          });
-        } catch {
-          // Best-effort continuation; next cron invocation can resume from blob state.
-        }
-      });
-    }
+    const digest = await buildDailyDigest();
+    const blob = await putDigestToBlob(digest);
 
     return Response.json({
       ok: true,
-      runId: result.runId,
-      status: result.status,
-      processedThisChunk: result.processedThisChunk,
-      itemCount: result.itemCount,
-      remainingItems: result.remainingItems,
-      generatedAt: result.generatedAt,
-      blobUrl: result.blobUrl,
+      itemCount: digest.itemCount,
+      generatedAt: digest.generatedAt,
+      blobUrl: blob.url,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
