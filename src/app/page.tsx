@@ -37,7 +37,7 @@ export default async function Home() {
           ) : (
             <p className="text-sm text-stone-300 font-mono">
               Quota limits have been reached for this project. Please stay tuned
-              for a fix.`.
+              for a fix.
             </p>
           )}
         </header>
