@@ -36,7 +36,8 @@ export default async function Home() {
             </hgroup>
           ) : (
             <p className="text-sm text-stone-300 font-mono">
-              No digest yet. Trigger `GET /api/cron/digest`.
+              Quota limits have been reached for this project. Please stay tuned
+              for a fix.`.
             </p>
           )}
         </header>
