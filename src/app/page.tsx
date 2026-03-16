@@ -22,6 +22,17 @@ export default async function Home() {
               <p className="text-sm text-stone-300 font-mono">
                 Generated: {new Date(digest.generatedAt).toLocaleString()}
               </p>
+              <p className="text-sm font-semibold font-mono text-stone-300">
+                Built by{" "}
+                <a
+                  className="underline"
+                  href="https://github.com/P0u4a"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  P0u4a
+                </a>
+              </p>
             </hgroup>
           ) : (
             <p className="text-sm text-stone-300 font-mono">
