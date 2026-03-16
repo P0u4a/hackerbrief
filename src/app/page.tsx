@@ -14,10 +14,15 @@ export default async function Home() {
             <h1 className="text-3xl font-semibold md:text-4xl">Hackerbrief</h1>
           </div>
           {digest ? (
-            <p className="text-sm text-stone-300 font-mono">
-              Generated: {new Date(digest.generatedAt).toLocaleString()} |
-              Items: {digest.itemCount}
-            </p>
+            <hgroup className="flex flex-col gap-2">
+              <h2 className="text-lg text-stone-200">
+                The top 10 posts on{" "}
+                <span className="font-bold">Hacker News</span> summarized daily
+              </h2>
+              <p className="text-sm text-stone-300 font-mono">
+                Generated: {new Date(digest.generatedAt).toLocaleString()}
+              </p>
+            </hgroup>
           ) : (
             <p className="text-sm text-stone-300 font-mono">
               No digest yet. Trigger `GET /api/cron/digest`.
@@ -56,7 +61,7 @@ export default async function Home() {
                 {item.error ? (
                   "No summary available."
                 ) : (
-                  <div className="pt-5">
+                  <div className="pt-5 text-pretty">
                     <Streamdown>{item.summary!}</Streamdown>
                   </div>
                 )}
