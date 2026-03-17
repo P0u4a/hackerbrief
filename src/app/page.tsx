@@ -1,10 +1,8 @@
-import { getDigestFromBlob } from "@/lib/digest";
+import { readDigestFromFile } from "@/lib/digest";
 import { Streamdown } from "streamdown";
 
-export const dynamic = "force-dynamic";
-
 export default async function Home() {
-  const digest = await getDigestFromBlob().catch(() => null);
+  const digest = readDigestFromFile();
 
   return (
     <main className="min-h-screen bg-stone-800 px-6 py-10 text-stone-100 md:px-10">

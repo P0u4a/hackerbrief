@@ -1,4 +1,8 @@
-import { buildDailyDigest, putDigestToBlob } from "@/lib/digest";
+import {
+  buildDailyDigest,
+  pushDigestToGitHub,
+  writeDigestToFile,
+} from "@/lib/digest";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -21,13 +25,17 @@ export async function GET(req: Request) {
 
   try {
     const digest = await buildDailyDigest();
-    const blob = await putDigestToBlob(digest);
+
+    if (process.env.NODE_ENV === "development") {
+      writeDigestToFile(digest);
+    } else {
+      await pushDigestToGitHub(digest);
+    }
 
     return Response.json({
       ok: true,
       itemCount: digest.itemCount,
       generatedAt: digest.generatedAt,
-      blobUrl: blob.url,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";

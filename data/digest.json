@@ -1,0 +1,129 @@
+{
+  "generatedAt": "2026-03-17T01:32:45.218Z",
+  "windowStart": "2026-03-16T01:32:45.218Z",
+  "windowEnd": "2026-03-17T01:32:45.218Z",
+  "itemCount": 10,
+  "source": "https://hn.algolia.com/api/v1/search_by_date?tags=front_page",
+  "items": [
+    {
+      "objectID": "47406779",
+      "title": "US SEC preparing to scrap quarterly reporting requirement",
+      "url": "https://www.reuters.com/business/finance/us-sec-preparing-eliminate-quarterly-reporting-requirement-wsj-says-2026-03-16/",
+      "hnUrl": "https://news.ycombinator.com/item?id=47406779",
+      "author": "djoldman",
+      "points": 185,
+      "numComments": 95,
+      "createdAt": "2026-03-17T00:02:35Z",
+      "summary": null,
+      "error": "Failed to fetch HTML document (status 401)"
+    },
+    {
+      "objectID": "47406569",
+      "title": "Show HN: Trackm, a personal finance web app",
+      "url": "https://trackm.net",
+      "hnUrl": "https://news.ycombinator.com/item?id=47406569",
+      "author": "iccananea",
+      "points": 18,
+      "numComments": 8,
+      "createdAt": "2026-03-16T23:36:43Z",
+      "summary": "### Secure Pocket-Based Budgeting\nTrackm is a personal finance tracker that utilizes pocket-based budgeting with end-to-end encryption, prioritizing user privacy. It operates without subscriptions, data sharing, or operator access, ensuring *your finances, yours alone*. Users can quickly set up their finances by creating named pockets for accounts or spending categories and logging income, expenses, and transfers, including recurring rules.\n\n### Advanced Financial Forecasting\nThe platform provides instant updates to every balance and tracks net worth. A key feature is its deficit forecast, which projects recurring rules 90 days ahead to identify exactly which day a pocket will go negative, allowing users to act proactively. For example, it might show \"Checking Apr 10, 2026 · 26d −$240.00\" or \"Groceries Apr 22, 2026 · 38d −$50.00\". It also offers net worth and timeline views, recurring operations, and category breakdowns with pie-chart reports.\n\n### Uncompromising Data Privacy\nTrackm is built with privacy at its core, distinguishing itself from apps that monetize by analyzing spending. It ensures *your data is encrypted with a key only you hold*. This is achieved through per-user encryption, where each account has its own randomly generated data key wrapped with the user's password, and isolated databases where budget data lives in its own encrypted database. Furthermore, there is zero operator access, as data keys are derived from the user's password, preventing server operators from decrypting data without it.\n\n### Simple, Lifetime Pricing\nTrackm offers simple, honest pricing with a one-time payment for lifetime access, eliminating monthly fees or hidden charges. This includes a 30-day free trial without requiring a credit card. The purchase grants unlimited pockets, expenses, and income, recurring rules projected years ahead, a 90-day deficit forecast with day-level alerts, and all future features, ensuring data ownership always remains with the user.",
+      "error": null
+    },
+    {
+      "objectID": "47404801",
+      "title": "AnswerThis (YC F25) Is Hiring",
+      "url": "https://www.ycombinator.com/companies/answerthis/jobs/CNdatw5-founding-engineering-lead",
+      "hnUrl": "https://news.ycombinator.com/item?id=47404801",
+      "author": "ayush4921",
+      "points": 0,
+      "numComments": 0,
+      "createdAt": "2026-03-16T21:00:06Z",
+      "summary": "### Revolutionizing Scientific Research\nAnswerThis is developing an operating system for scientific knowledge within enterprises, aiming to automate the manual processes that currently dominate global R&D. Trillions of dollars are spent annually, with a significant portion going to researchers manually reading papers, writing literature reviews, and compiling evidence packages, work critical for new drugs and medical devices. The company's AI agents autonomously search, synthesize, and draft evidence-based research, transforming these workflows. AnswerThis has rapidly grown, serving over 200,000 researchers across universities and Fortune 500 companies, particularly focusing on life sciences where manual efforts and stakes are highest. The YC-backed company crossed *$1M ARR in 8 months* and is cash-flow positive, with an ARR of over $1.5M.\n\n### Addressing Key Challenges in R&D\nAnswerThis tackles three core problems in scientific research. First, existing research remains difficult to search effectively, as finding relevant evidence across fragmented sources is a massive unsolved problem despite semantic search improvements. Second, research struggles to update itself; literature reviews are static snapshots, yet underlying data, trial results, and new publications constantly change, leaving no good solution for keeping research current. Third, drafting research is a painful process, with scientists spending months creating static, one-time documents that quickly become outdated and unsearchable. AnswerThis aims to build a system that makes research a *“living, compounding asset instead of a disposable artifact.”*\n\n### Founding Engineering Lead Opportunity\nAnswerThis is seeking a Founding Engineering Lead to join its small, fast-paced San Francisco team. The ideal candidate is a senior engineer with experience building AI agent systems in production and leading teams or projects at startups, capable of shipping under uncertainty without detailed specifications. This role involves owning the technical architecture and product velocity, prioritizing and implementing features end-to-end from customer problem to deployed solution. The lead will work directly with enterprise customers, make critical scope decisions with limited information, and measure success by revenue growth. Additionally, the role includes helping to build the engineering team, designing the transition from a small team to a larger one. Compensation includes a $170-240K+ base salary with meaningful equity.",
+      "error": null
+    },
+    {
+      "objectID": "47404796",
+      "title": "Leanstral: Open-source agent for trustworthy coding and formal proof engineering",
+      "url": "https://mistral.ai/news/leanstral",
+      "hnUrl": "https://news.ycombinator.com/item?id=47404796",
+      "author": "Poudlardo",
+      "points": 285,
+      "numComments": 53,
+      "createdAt": "2026-03-16T20:59:40Z",
+      "summary": "### Introducing Leanstral: A New Era for Code Agents\nMistral AI has unveiled Leanstral, the first open-source code agent specifically designed for Lean 4, a proof assistant capable of expressing complex mathematical objects and software specifications. This initiative aims to address the significant bottleneck of human review in high-stakes code generation, where specialized expertise and time are critical. Leanstral is envisioned to enable coding agents to not only perform tasks but also formally prove their implementations against strict specifications, shifting the paradigm where \"*humans dictate what they want*\" instead of debugging machine-generated logic. The model is highly efficient with 6B active parameters, optimized for proof engineering tasks, and released under an Apache 2.0 license, making it open and accessible.\n\n### Performance and Cost-Efficiency Benchmarks\nLeanstral demonstrates significant efficiency and cost advantages over both larger open-source and leading closed-source models in realistic proof engineering scenarios, evaluated using the new FLTEval suite. Leanstral-120B-A6B outperforms much larger open-source peers like GLM5-744B-A40B and Kimi-K2.5-1T-32B with a single pass, achieving scores of 26.3 at pass@2 and scaling to 29.3. Against the Claude family, Leanstral offers competitive performance at a fraction of the cost; its pass@2 score of 26.3 beats Sonnet by 2.6 points while costing only $36 to run, compared to Sonnet’s $549. At pass@16, Leanstral reaches 31.9, surpassing Sonnet by 8 points, and while Claude Opus 4.6 leads in quality, \"*it carries a staggering cost of $1,650, 92 times higher than running Leanstral.*\"\n\n### Practical Applications and Accessibility\nLeanstral's capabilities extend to practical applications, as demonstrated through case studies. It successfully diagnosed and proposed a fix for a breaking change in a Lean 4.29.0-rc6 script, identifying that a `def` type alias was blocking a `rw` tactic and suggesting `abbrev` as a solution, along with a clear explanation. The agent also proved adept at reasoning about programs, converting Rocq definitions to Lean, implementing custom notation, and proving properties about programs from Rocq statements alone. Leanstral is immediately available for use with zero-setup in Mistral Vibe, through a free/near-free Labs API endpoint for feedback, and by downloading its Apache 2.0 licensed weights to run locally.",
+      "error": null
+    },
+    {
+      "objectID": "47404074",
+      "title": "Nvidia Launches Vera CPU, Purpose-Built for Agentic AI",
+      "url": "https://nvidianews.nvidia.com/news/nvidia-launches-vera-cpu-purpose-built-for-agentic-ai",
+      "hnUrl": "https://news.ycombinator.com/item?id=47404074",
+      "author": "lewismenelaws",
+      "points": 123,
+      "numComments": 78,
+      "createdAt": "2026-03-16T20:01:02Z",
+      "summary": "### NVIDIA Unveils Vera CPU for Agentic AI\nNVIDIA has launched the Vera CPU, the world's first processor purpose-built for agentic AI and reinforcement learning. This new CPU delivers results with twice the efficiency and is 50% faster than traditional rack-scale CPUs. It addresses the increasing demands for scale, performance, and cost efficiency in AI infrastructure, particularly for models that plan tasks, run tools, interact with data, execute code, and validate results.\n\nBuilding on the NVIDIA Grace CPU, Vera enables organizations to construct AI factories that facilitate agentic AI at scale. With its highest single-thread performance and bandwidth per core, Vera is a new class of CPU designed to provide superior AI throughput, responsiveness, and efficiency for large-scale AI services, including coding assistants, consumer, and enterprise agents. Jensen Huang, NVIDIA's founder and CEO, emphasized its significance, stating, \"*The CPU is no longer simply supporting the model; it’s driving it.*\"\n\n### Advanced Architecture and Integration for AI Factories\nThe Vera CPU is engineered for agentic scaling, combining high-performance, energy-efficient CPU cores with a high-bandwidth memory subsystem and the second-generation NVIDIA Scalable Coherency Fabric. This design enables faster agentic responses even under the extreme utilization conditions common in agentic AI and reinforcement learning. Vera features 88 custom NVIDIA-designed Olympus cores, optimized for compilers, runtime engines, analytics pipelines, agentic tooling, and orchestration services. Each core can execute two tasks concurrently using NVIDIA Spatial Multithreading, ensuring consistent and predictable performance, ideal for multi-tenant AI factories managing numerous jobs simultaneously.\n\nTo further enhance energy efficiency, Vera introduces the second generation of NVIDIA’s low-power memory subsystem, built on LPDDR5X memory. This delivers up to 1.2 TB/s of bandwidth—twice the bandwidth and at half the power compared with general-purpose CPUs. NVIDIA also announced a new Vera CPU rack, integrating 256 liquid-cooled Vera CPUs to sustain more than 22,500 concurrent CPU environments, each operating independently at full performance. These AI factories can rapidly deploy and scale to tens of thousands of simultaneous instances and agentic tools within a single rack, built using the NVIDIA MGX modular reference architecture.\n\nAs part of the NVIDIA Vera Rubin NVL72 platform, Vera CPUs are paired with NVIDIA GPUs through NVIDIA NVLink-C2C interconnect technology. This provides 1.8 TB/s of coherent bandwidth—7x the bandwidth of PCIe Gen 6—for high-speed data sharing. New reference designs also utilize Vera as the host CPU for NVIDIA HGX Rubin NVL8 systems, coordinating data movement and system control for GPU-accelerated workloads.\n\nVera systems partners are offering both dual and single-socket CPU server configurations, optimal for diverse workloads such as reinforcement learning, agentic inference, data processing, orchestration, storage management, cloud applications, and high-performance computing. Across all configurations, Vera systems integrate NVIDIA ConnectX SuperNIC cards and NVIDIA BlueField-4 DPUs for accelerated networking, storage, and security, which are crucial for agentic AI.\n\n### Extensive Ecosystem Support and Performance Benchmarks\nThe Vera CPU has garnered widespread support across the industry, with leading hyperscalers, cloud service providers, national laboratories, and infrastructure partners collaborating with NVIDIA for its deployment. Hyperscalers and cloud providers planning to deploy Vera include Alibaba, ByteDance, Meta, Oracle Cloud Infrastructure, CoreWeave, Lambda, Nebius, Nscale, Cloudflare, Crusoe, Together.AI, and Vultr. Manufacturing partners adopting Vera include Dell Technologies, HPE, Lenovo, Supermicro, ASUS, Compal, Foxconn, GIGABYTE, Pegatron, Quanta Cloud Technology (QCT), Wistron, and Wiwynn.\n\nNational laboratories such as the Leibniz Supercomputing Centre, Los Alamos National Laboratory, Lawrence Berkeley National Laboratory's National Energy Research Scientific Computing Center, and the Texas Advanced Computing Center (TACC) are also planning deployments. Early performance benchmarks highlight Vera's impact. Cursor, an innovator in AI-native software development, is adopting Vera to boost performance for its AI coding agents, with cofounder and CEO Michael Truell stating, \"We’re excited to use NVIDIA Vera CPUs to improve overall throughput and efficiency so we can deliver faster, more responsive coding agent experiences for our customers.\"\n\nRedpanda, a leading streaming data and AI platform, reported dramatically better performance than other systems, achieving \"*up to 5.5x lower latency*\" when running Apache Kafka-compatible workloads on Vera. TACC's director of high-performance computing, John Cazes, noted impressive early results from running six scientific applications on Vera, calling its per-core performance and memory bandwidth \"a giant step forward for scientific computing.\" NVIDIA Vera is currently in full production and is expected to be available from partners in the second half of this year.",
+      "error": null
+    },
+    {
+      "objectID": "47402640",
+      "title": "Meta’s renewed commitment to jemalloc",
+      "url": "https://engineering.fb.com/2026/03/02/data-infrastructure/investing-in-infrastructure-metas-renewed-commitment-to-jemalloc/",
+      "hnUrl": "https://news.ycombinator.com/item?id=47402640",
+      "author": "hahahacorn",
+      "points": 332,
+      "numComments": 138,
+      "createdAt": "2026-03-16T18:12:32Z",
+      "summary": "### Meta's Renewed Commitment to jemalloc\n\nMeta is reaffirming its dedication to jemalloc, a high-performance memory allocator recognized for its long-term benefits within the company's software infrastructure. Described as a foundational component, *jemalloc, the high performance memory allocator, has consistently been a highly-leveraged component within our software stack*, adapting to hardware and software changes over time. It contributes significantly to Meta's reliable and performant infrastructure, alongside critical elements like the Linux kernel and compilers. The renewed focus aims to reduce maintenance needs, modernize the codebase, and evolve the allocator to suit the latest hardware and workloads, with a continued commitment to open-source development and community collaboration.\n\n### Addressing Past Challenges and Community Feedback\n\nDespite jemalloc's critical role, Meta acknowledges a period where there was *a gradual shift away from the core engineering principles that have long guided jemalloc’s development*. This deviation, while sometimes offering immediate benefits, ultimately led to technical debt that hindered progress. Meta has since engaged with the open-source community, including the project's founder, Jason Evans, to reflect on its stewardship. This introspection has led to an effort to remove existing technical debt and establish a long-term roadmap for jemalloc, demonstrating a commitment to collaboration and the project's health.\n\n### A New Chapter and Key Improvements\n\nAs a direct result of these community conversations, the original jemalloc open-source repository has been unarchived, with Meta continuing its stewardship. The company's plan for jemalloc focuses on several key areas of improvement. These include technical debt reduction through cleanup, refactoring, and enhancements to ensure efficiency, reliability, and ease of use. Further improvements will target the huge-page allocator (HPA) to better utilize transparent hugepages (THP) for enhanced CPU efficiency, and memory efficiency through optimized packing, caching, and purging mechanisms. Additionally, Meta plans to implement AArch64 optimizations to ensure strong out-of-the-box performance for the ARM64 platform. Meta invites the community to contribute feedback and help shape jemalloc's future, emphasizing that trust is earned through action and visible progress.",
+      "error": null
+    },
+    {
+      "objectID": "47401901",
+      "title": "Language Model Teams as Distrbuted Systems",
+      "url": "https://arxiv.org/abs/2603.12229",
+      "hnUrl": "https://news.ycombinator.com/item?id=47401901",
+      "author": "jryio",
+      "points": 68,
+      "numComments": 30,
+      "createdAt": "2026-03-16T17:19:13Z",
+      "summary": "### The Challenge of LLM Teams\nLarge language models (LLMs) are growing increasingly capable, prompting significant interest in LLM teams. Despite the increased deployment of these teams at scale, \"*we lack a principled framework for addressing key questions such as when a team is helpful, how many agents to use.*\" Current methods often rely on trial-and-error rather than a structured approach to design and evaluation.\n\n### A Distributed Systems Approach\nTo overcome this limitation, researchers propose utilizing distributed systems as a principled foundation for creating and evaluating LLM teams. This framework aims to provide a systematic methodology for understanding how structure impacts performance and whether a team offers advantages over a single agent.\n\n### Bridging Two Fields\nThe study reveals that \"*many of the fundamental advantages and challenges studied in distributed computing also arise in LLM teams.*\" This observation highlights the rich practical insights that can emerge from the cross-talk between the fields of distributed computing and multiagent LLM research.",
+      "error": null
+    },
+    {
+      "objectID": "47401879",
+      "title": "The “small web” is bigger than you might think",
+      "url": "https://kevinboone.me/small_web_is_big.html",
+      "hnUrl": "https://news.ycombinator.com/item?id=47401879",
+      "author": "speckx",
+      "points": 305,
+      "numComments": 132,
+      "createdAt": "2026-03-16T17:17:57Z",
+      "summary": "### Defining the Small Web\nThe \"small web\" encompasses private, non-commercial websites that utilize standard web browsers and servers, operating without advertising or corporate tracking. This concept is distinct from protocols like Gemini, which employs entirely different software and is inherently limited, making commercial exploitation nearly impossible. The Gemini community, for example, consists of approximately 6,000 \"capsules\" (sites) globally, with active online forums typically engaging around a hundred users, predominantly IT professionals. The author's interest in the small web's size was sparked by observing how Gemini feed aggregators efficiently compile updates from numerous capsules onto a single, accessible page.\n\n### Assessing the Small Web's Activity\nInspired by Gemini's aggregation model, the author aimed to determine if a similar system could be implemented for the broader small web. This endeavor required a comprehensive list of sites, which was sourced from the Kagi search engine's small web initiative, featuring user-nominated sites that publish update feeds. Initially, Kagi's list contained about 6,000 sites, a number that recently surged to approximately 32,000 entries. To gauge activity, the author developed a program to download and analyze these feeds, filtering out sites lacking timestamps, producing invalid feeds, or updating less than once a month. This rigorous process ultimately yielded an active list of about 9,000 sites.\n\n### The Unexpected Scale of the Small Web\nAnalysis of the filtered sites revealed a surprisingly high level of activity; for instance, on March 15, there were 1,251 updates, all representing additions of new content. This volume demonstrated that the small web is \"too large, and too active, to publish all the updates on a single page,\" rendering the initial aggregation goal impractical. Despite this challenge, the findings are positive, indicating that \"*the small web is very much alive, and growing.*\" The author emphasizes that \"*the 'small' web was never defined by the number of sites, but by the lack of commercial influence,*\" celebrating the continued existence of private, non-commercial websites in an internet largely dominated by advertising.",
+      "error": null
+    },
+    {
+      "objectID": "47401809",
+      "title": "US commercial insurers pay 254% of Medicare for the same hospital procedures",
+      "url": "https://github.com/rexrodeo/american-healthcare-conundrum",
+      "hnUrl": "https://news.ycombinator.com/item?id=47401809",
+      "author": "rexroad",
+      "points": 207,
+      "numComments": 142,
+      "createdAt": "2026-03-16T17:13:27Z",
+      "summary": "### US Healthcare Waste: A Data-Driven Analysis\nThe United States spends approximately *$14,570 per person on healthcare*, significantly more than peer nations like Japan, which spends ~$5,790 per person while maintaining the highest life expectancy in the OECD. This disparity represents a roughly $3 trillion annual gap. An investigative data journalism project quantifies fixable waste in the US healthcare system, identifying specific problems, measuring waste using primary federal data, and recommending policy solutions. All analysis code is open-source and reproducible, utilizing datasets from CMS, OECD, and federal sources. So far, the project has identified $98.6 billion in potential annual savings across three key issues, representing 3.3% of the total spending gap.\n\n### Drug Pricing Inefficiencies\nTwo major areas of waste involve drug pricing. First, Medicare currently pays prescription prices for drugs readily available over-the-counter. Implementing step therapy reform, which would require patients to try OTC equivalents before prescription coverage activates, could redirect approximately $0.6 billion per year in unnecessary spending. Second, the US pays substantially more for brand-name drugs compared to other developed nations, with prices ranging from 7 to 581 times higher for identical medications. Adopting international reference pricing, benchmarking Medicare negotiations against prices paid by countries like Germany, France, Japan, the UK, and Australia, is estimated to save around $25 billion annually.\n\n### Hospital Procedure Overcharges\nA significant portion of waste stems from hospital procedure costs, where *commercial insurers pay 254% of Medicare rates for identical hospital procedures*. For instance, a hip replacement costs $29,000 in the US, while most peer nations pay under $11,000. Capping commercial hospital payments at 200% of Medicare rates, a mechanism already employed by Montana Medicaid and thousands of self-insured employers, could generate approximately $73 billion in annual savings. This analysis, based on cost reports from 3,193 hospitals, found that the median markup in nonprofit hospitals is 3.96 times actual operating costs, with 37% of all hospitals charging three times or more.\n\n### Methodology and Future Scope\nThe project emphasizes rigorous methodology, with every analysis using primary sources such as CMS cost reports, Part D claims data, OECD health statistics, and RAND pricing studies. Every number is cited, and every script is reproducible from a clean clone, with caveats explicitly named. The next issue (#4) will delve into pharmacy benefit managers (PBMs), examining their role in processing 80% of US prescriptions and their impact through spread pricing, rebate opacity, and formulary manipulation.",
+      "error": null
+    },
+    {
+      "objectID": "47401766",
+      "title": "Launch HN: Chamber (YC W26) – An AI Teammate for GPU Infrastructure",
+      "url": "https://www.usechamber.io/",
+      "hnUrl": "https://news.ycombinator.com/item?id=47401766",
+      "author": "jshen96",
+      "points": 20,
+      "numComments": 5,
+      "createdAt": "2026-03-16T17:09:34Z",
+      "summary": "### Chamber's AI\nChamber provides AI agents that act as an autonomous extension for machine learning (ML) teams.\n\n### GPU Optimization\nThese agents are designed to reduce GPU compute costs, improve utilization, and eliminate infrastructure bottlenecks across clouds.\n\n### Research Acceleration\nThis optimization enables ML teams to move faster and accelerate their research initiatives.",
+      "error": null
+    }
+  ]
+}
