@@ -65,7 +65,6 @@ async function createSummarizeSandbox(): Promise<Sandbox> {
   const sandbox = await Sandbox.create({
     runtime: "node22",
     timeout: SANDBOX_TIMEOUT_MS,
-    projectId: "hackerbrief",
   });
 
   const install = await sandbox.runCommand({
