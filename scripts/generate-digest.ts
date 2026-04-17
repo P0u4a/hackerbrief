@@ -2,17 +2,24 @@ import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { JSDOM } from "jsdom";
 import { Readability } from "@mozilla/readability";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import {
+  GenerativeModel,
+  GoogleGenerativeAI,
+  GoogleGenerativeAIFetchError,
+} from "@google/generative-ai";
+import { sleep, stripHtml, pad } from "./utils";
+import { summarizeCommentsPrompt, summarizePrompt } from "./prompts";
 
-const TARGET_ITEMS = 30;
+const GEMINI_MODEL = "gemini-2.5-flash";
+const TARGET_ITEMS = 10;
 const FETCH_BUFFER = 20;
 const MAX_COMMENTS = 100;
 const GEMINI_DELAY_MS = 2500;
 const ARTICLE_FETCH_TIMEOUT_MS = 15_000;
 const MAX_ARTICLE_CHARS = 15_000;
 const MAX_COMMENT_CHARS = 15_000;
-
 const HN_TOP_STORIES = "https://hacker-news.firebaseio.com/v0/topstories.json";
+
 const hnItem = (id: number) =>
   `https://hacker-news.firebaseio.com/v0/item/${id}.json`;
 const algoliaItem = (id: number) => `https://hn.algolia.com/api/v1/items/${id}`;
@@ -54,18 +61,50 @@ interface FrontPageDigest {
   items: DigestItem[];
 }
 
-type Model = ReturnType<GoogleGenerativeAI["getGenerativeModel"]>;
+class QuotaExhaustedError extends Error {}
 
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-const pad = (n: number) => String(n).padStart(2, "0");
-const stripHtml = (s: string) => s.replaceAll(/<[^>]*>/g, " ").trim();
+function parseRetryDelayMs(err: unknown): number | null {
+  if (!(err instanceof GoogleGenerativeAIFetchError) || err.status !== 429) {
+    return null;
+  }
+  const retryInfo = err.errorDetails?.find(
+    (d) => d["@type"] === "type.googleapis.com/google.rpc.RetryInfo"
+  );
+  const delay = retryInfo?.retryDelay;
+  if (typeof delay !== "string") return null;
+  const match = delay.match(/^(\d+(?:\.\d+)?)s$/);
+  return match ? Math.ceil(parseFloat(match[1]) * 1000) : null;
+}
 
-function createModel(): Model {
+async function generateWithRetry(
+  model: GenerativeModel,
+  prompt: string
+): Promise<string> {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      const result = await model.generateContent(prompt);
+      const text = result.response.text().trim();
+      await sleep(GEMINI_DELAY_MS);
+      return text;
+    } catch (e) {
+      const is429 =
+        e instanceof GoogleGenerativeAIFetchError && e.status === 429;
+      if (!is429) throw e;
+      const delayMs = parseRetryDelayMs(e);
+      if (delayMs == null || attempt >= 1) throw new QuotaExhaustedError();
+      const seconds = Math.ceil(delayMs / 1000);
+      console.log(`-> Rate limited; waiting ${seconds}s before retry...`);
+      await sleep(delayMs + 1000);
+    }
+  }
+}
+
+function createModel(): GenerativeModel {
   const key =
     process.env.GEMINI_API_KEY ?? process.env.GOOGLE_GENERATIVE_AI_API_KEY;
   if (!key) throw new Error("Missing GEMINI_API_KEY env var");
   return new GoogleGenerativeAI(key).getGenerativeModel({
-    model: "gemini-2.5-flash",
+    model: GEMINI_MODEL,
   });
 }
 
@@ -111,7 +150,10 @@ async function extractContent(story: HNStory): Promise<string | null> {
           return article.textContent.trim().slice(0, MAX_ARTICLE_CHARS);
         }
       }
-    } catch {}
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      console.warn(`-> Article fetch failed (${story.url}): ${msg}`);
+    }
   }
 
   if (story.text) {
@@ -122,71 +164,64 @@ async function extractContent(story: HNStory): Promise<string | null> {
 }
 
 async function summarizeArticle(
-  model: Model,
+  model: GenerativeModel,
   content: string
 ): Promise<string | null> {
   try {
-    const result = await model.generateContent(
-      `You are a concise technical writer. Summarize the following article. Focus on key points, technical details, and why it matters. If the content is primarily about partisan politics, elections, political campaigns, or political figures in a political context, respond with exactly "POLITICAL_CONTENT" and nothing else.
-      <article>
-        ${content}
-      </article>`
-    );
-    const text = result.response.text().trim();
+    const text = await generateWithRetry(model, summarizePrompt(content));
     if (!text || text === "POLITICAL_CONTENT") return null;
     return text;
   } catch (e) {
+    if (e instanceof QuotaExhaustedError) throw e;
     console.error("Gemini article summary error:", e);
     return null;
   }
 }
 
-async function fetchAndSummarizeComments(
-  model: Model,
-  storyId: number
-): Promise<string | null> {
-  let comments: string[];
+async function fetchComments(storyId: number): Promise<string[]> {
   try {
     const res = await fetch(algoliaItem(storyId));
-    if (!res.ok) return null;
+    if (!res.ok) return [];
     const root: AlgoliaComment = await res.json();
 
-    comments = [];
-    const queue = [...(root.children ?? [])];
-    while (queue.length > 0 && comments.length < MAX_COMMENTS) {
-      const node = queue.shift()!;
+    const comments: string[] = [];
+    const queue: AlgoliaComment[] = [...(root.children ?? [])];
+    for (let i = 0; i < queue.length && comments.length < MAX_COMMENTS; i++) {
+      const node = queue[i];
       if (node.text) {
         const clean = stripHtml(node.text);
         if (clean) comments.push(clean);
       }
       if (node.children) queue.push(...node.children);
     }
+    return comments;
   } catch {
-    return null;
+    return [];
   }
+}
 
+async function summarizeComments(
+  model: GenerativeModel,
+  comments: string[]
+): Promise<string | null> {
   if (comments.length === 0) return null;
-
-  await sleep(GEMINI_DELAY_MS);
 
   try {
     const joined = comments.join("\n---\n").slice(0, MAX_COMMENT_CHARS);
-    const result = await model.generateContent(
-      `Summarize the general ideas being discussed and the overall sentiment in these Hacker News comments. Highlight key themes, notable insights, and whether the community response is generally positive, negative, or mixed. Keep it concise (2-3 short paragraphs).
-      <comments>
-        ${joined}
-      </comments>`
+    const text = await generateWithRetry(
+      model,
+      summarizeCommentsPrompt(joined)
     );
-    const text = result.response.text().trim();
     return text || null;
   } catch (e) {
+    if (e instanceof QuotaExhaustedError) throw e;
     console.error("Gemini comment summary error:", e);
     return null;
   }
 }
 
 async function processStory(
-  model: Model,
+  model: GenerativeModel,
   story: HNStory
 ): Promise<DigestItem | null> {
   const content = await extractContent(story);
@@ -195,14 +230,21 @@ async function processStory(
     return null;
   }
 
-  await sleep(GEMINI_DELAY_MS);
   const summary = await summarizeArticle(model, content);
   if (!summary) {
     console.log("-> Skipped: political or summarization failed");
     return null;
   }
 
-  const commentSummary = await fetchAndSummarizeComments(model, story.id);
+  const comments = await fetchComments(story.id);
+  let commentSummary: string | null = null;
+  try {
+    commentSummary = await summarizeComments(model, comments);
+  } catch (e) {
+    if (!(e instanceof QuotaExhaustedError)) throw e;
+    console.log("-> Quota hit on comments; keeping article-only item");
+  }
+
   console.log(`-> OK (comment summary: ${commentSummary ? "yes" : "no"})`);
 
   return {
@@ -220,7 +262,7 @@ async function processStory(
 }
 
 async function processStories(
-  model: Model,
+  model: GenerativeModel,
   candidates: HNStory[],
   target: number
 ): Promise<DigestItem[]> {
@@ -231,20 +273,22 @@ async function processStories(
 
     console.log(`[${items.length + 1}/${target}] ${story.title.slice(0, 60)}`);
 
-    const item = await processStory(model, story);
-    if (item) items.push(item);
-  }
-
-  if (items.length < target) {
-    console.warn(
-      `\nWarning: only ${items.length} items (ran out of candidate stories)`
-    );
+    try {
+      const item = await processStory(model, story);
+      if (item) items.push(item);
+    } catch (e) {
+      if (e instanceof QuotaExhaustedError) {
+        console.warn("\nGemini quota exhausted; writing partial digest");
+        break;
+      }
+      throw e;
+    }
   }
 
   return items;
 }
 
-function writeDigest(items: DigestItem[]): void {
+function writeDigest(items: DigestItem[], target: number): void {
   const now = new Date();
 
   const digest: FrontPageDigest = {
@@ -258,14 +302,14 @@ function writeDigest(items: DigestItem[]): void {
   writeFileSync(outPath, JSON.stringify(digest, null, 2) + "\n");
 
   console.log(`\nDigest written to digests/${filename}`);
-  console.log(`Total items: ${items.length}/${TARGET_ITEMS}`);
+  console.log(`Total items: ${items.length}/${target}`);
 }
 
 async function main() {
   const model = createModel();
   const candidates = await fetchCandidateStories(TARGET_ITEMS + FETCH_BUFFER);
   const items = await processStories(model, candidates, TARGET_ITEMS);
-  writeDigest(items);
+  writeDigest(items, TARGET_ITEMS);
 }
 
 main().catch((err) => {
