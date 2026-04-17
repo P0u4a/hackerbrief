@@ -1,50 +1,38 @@
 ## Hackerbrief
 
-Daily Hacker News front-page digest powered by:
-
-- HN Algolia API (`tags=front_page`)
-- Vercel Sandbox (`@vercel/sandbox`) to run `summarize` CLI with Gemini
-- Vercel Blob SDK (`@vercel/blob`) with private JSON blobs overwritten once per day
-
-## Environment Variables
-
-Set these in Vercel project settings:
-
-- `GEMINI_API_KEY` (or `GOOGLE_GENERATIVE_AI_API_KEY`)
-- `BLOB_READ_WRITE_TOKEN`
-- `CRON_SECRET` (recommended for cron route protection)
-- `DIGEST_READ_SECRET` (optional; defaults to `CRON_SECRET` when not set)
-- `DIGEST_MAX_ITEMS` (optional, default `10`)
-- `GEMINI_REQUESTS_PER_MINUTE` (optional, default `5`)
-- `DIGEST_RUNTIME_BUDGET_SECONDS` (optional, default `280`)
-- `SUMMARIZE_SNAPSHOT_ID` (optional; force a specific snapshot ID)
+Daily Hacker News front-page digest. Summaries of linked articles and comments.
 
 ## How It Works
 
-1. Vercel cron calls `GET /api/cron/digest` every day (`0 0 * * *` in `vercel.json`).
-2. The route fetches front-page items from the last 24h via `https://hn.algolia.com/api/v1/search_by_date?tags=front_page`.
-3. The job reuses a sandbox snapshot with `@steipete/summarize` preinstalled.
-4. If no usable snapshot exists, it installs once, creates a snapshot, and stores snapshot ID in private blob state.
-5. The route summarizes up to `DIGEST_MAX_ITEMS`, capped by the runtime budget and request rate limits.
-6. Result JSON is uploaded to private Vercel Blob at `digests/frontpage-latest.json` with overwrite enabled.
-7. Frontend reads and renders the latest private blob content server-side.
+1. `.github/workflows/daily-digest.yml` runs every day at `00:00 UTC`
+2. The workflow runs `pnpm generate`, which executes `scripts/generate-digest.ts`.
+3. The script:
+   - Fetches top story IDs from `https://hacker-news.firebaseio.com/v0/topstories.json`
+   - For each story: fetches the linked article, runs it through `@mozilla/readability` to extract main text.
+   - Calls Gemini (`gemini-2.5-flash`) to summarize the article. Stories flagged as primarily partisan/political content are skipped.
+   - Fetches the comment tree from the Algolia HN API and asks Gemini to summarize
+4. The output is written to `digests/hn-digest-MM-DD-YYYY.json`.
+5. The workflow commits and pushes the new digest file to `main`.
+6. The frontend (`src/components/digest-view.tsx`) fetches today's digest from `raw.githubusercontent.com/P0u4a/hackerbrief/main/digests/`, falling back to yesterday's if today's hasn't been generated yet. Results are cached in `localStorage`.
+
+## Environment Variables
+
+- `GEMINI_API_KEY` — Gemini API key (also accepts `GOOGLE_GENERATIVE_AI_API_KEY`).
 
 ## Local Development
 
-Run the app:
+Run the frontend:
 
 ```bash
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+## Tuning
 
-To run a digest manually:
+Knobs live at the top of `scripts/generate-digest.ts`:
 
-```bash
-curl -H "Authorization: Bearer $CRON_SECRET" http://localhost:3000/api/cron/digest
-```
-
-Digest endpoint (token-protected if `CRON_SECRET` or `DIGEST_READ_SECRET` is set):
-
-- `GET /api/digest`
+- `TARGET_ITEMS` — number of accepted stories per digest.
+- `FETCH_BUFFER` — extra candidates pulled to survive skipped stories.
+- `MAX_COMMENTS` — cap on comments summarized per story.
+- `GEMINI_DELAY_MS` — throttle applied after each Gemini call.
+- `ARTICLE_FETCH_TIMEOUT_MS`, `MAX_ARTICLE_CHARS`, `MAX_COMMENT_CHARS` — request and prompt-size limits.
