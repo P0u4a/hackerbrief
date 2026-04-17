@@ -17,7 +17,7 @@ Daily Hacker News front-page digest. Summaries of linked articles and comments.
 
 ## Environment Variables
 
-- `GEMINI_API_KEY` — Gemini API key (also accepts `GOOGLE_GENERATIVE_AI_API_KEY`).
+- `GEMINI_API_KEY` - Gemini API key (also accepts `GOOGLE_GENERATIVE_AI_API_KEY`).
 
 ## Local Development
 
@@ -29,10 +29,10 @@ pnpm dev
 
 ## Tuning
 
-Knobs live at the top of `scripts/generate-digest.ts`:
+Constants live in `scripts/constants.ts`:
 
-- `TARGET_ITEMS` — number of accepted stories per digest.
-- `FETCH_BUFFER` — extra candidates pulled to survive skipped stories.
-- `MAX_COMMENTS` — cap on comments summarized per story.
-- `GEMINI_DELAY_MS` — throttle applied after each Gemini call.
-- `ARTICLE_FETCH_TIMEOUT_MS`, `MAX_ARTICLE_CHARS`, `MAX_COMMENT_CHARS` — request and prompt-size limits.
+- `TARGET_ITEMS` - number of accepted stories per digest.
+- `FETCH_BUFFER` - extra candidates pulled to survive skipped stories.
+- `MAX_COMMENTS` - cap on comments summarized per story.
+- `GEMINI_DELAY_MS` - throttle applied after each Gemini call.
+- `ARTICLE_FETCH_TIMEOUT_MS`, `MAX_ARTICLE_CHARS`, `MAX_COMMENT_CHARS` - request and prompt-size limits.

@@ -9,57 +9,22 @@ import {
 } from "@google/generative-ai";
 import { sleep, stripHtml, pad } from "./utils";
 import { summarizeCommentsPrompt, summarizePrompt } from "./prompts";
-
-const GEMINI_MODEL = "gemini-2.5-flash";
-const TARGET_ITEMS = 10;
-const FETCH_BUFFER = 20;
-const MAX_COMMENTS = 100;
-const GEMINI_DELAY_MS = 2500;
-const ARTICLE_FETCH_TIMEOUT_MS = 15_000;
-const MAX_ARTICLE_CHARS = 15_000;
-const MAX_COMMENT_CHARS = 15_000;
-const HN_TOP_STORIES = "https://hacker-news.firebaseio.com/v0/topstories.json";
+import {
+  GEMINI_DELAY_MS,
+  GEMINI_MODEL,
+  HN_TOP_STORIES,
+  ARTICLE_FETCH_TIMEOUT_MS,
+  MAX_ARTICLE_CHARS,
+  MAX_COMMENTS,
+  MAX_COMMENT_CHARS,
+  TARGET_ITEMS,
+  FETCH_BUFFER,
+} from "./constants";
+import { HNStory, AlgoliaComment, DigestItem, FrontPageDigest } from "./types";
 
 const hnItem = (id: number) =>
   `https://hacker-news.firebaseio.com/v0/item/${id}.json`;
 const algoliaItem = (id: number) => `https://hn.algolia.com/api/v1/items/${id}`;
-
-interface HNStory {
-  id: number;
-  title: string;
-  url?: string;
-  text?: string;
-  by: string;
-  score: number;
-  descendants?: number;
-  time: number;
-}
-
-interface AlgoliaComment {
-  id: number;
-  text: string | null;
-  author: string | null;
-  children: AlgoliaComment[];
-}
-
-interface DigestItem {
-  objectID: string;
-  title: string;
-  url: string;
-  hnUrl: string;
-  author: string;
-  points: number;
-  numComments: number;
-  createdAt: string;
-  summary: string | null;
-  commentSummary: string | null;
-}
-
-interface FrontPageDigest {
-  generatedAt: string;
-  itemCount: number;
-  items: DigestItem[];
-}
 
 class QuotaExhaustedError extends Error {}
 
@@ -247,11 +212,13 @@ async function processStory(
 
   console.log(`-> OK (comment summary: ${commentSummary ? "yes" : "no"})`);
 
+  const hnUrl = `https://news.ycombinator.com/item?id=${story.id}`;
+
   return {
     objectID: String(story.id),
     title: story.title,
-    url: story.url ?? `https://news.ycombinator.com/item?id=${story.id}`,
-    hnUrl: `https://news.ycombinator.com/item?id=${story.id}`,
+    url: story.url ?? hnUrl,
+    hnUrl,
     author: story.by,
     points: story.score,
     numComments: story.descendants ?? 0,
