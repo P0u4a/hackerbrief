@@ -1,0 +1,19 @@
+{
+  "name": "Hackerbrief",
+  "short_name": "Hackerbrief",
+  "description": "Daily Hacker News front-page digest",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1c1917",
+  "theme_color": "#F97316",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

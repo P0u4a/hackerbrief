@@ -48,6 +48,24 @@ function getCachedDigest(date: Date): FrontPageDigest | null {
   }
 }
 
+function getAnyCachedDigest(): FrontPageDigest | null {
+  try {
+    let latestKey: string | null = null;
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k?.startsWith("hackerbrief-") && (!latestKey || k > latestKey)) {
+        latestKey = k;
+      }
+    }
+    if (!latestKey) return null;
+    const raw = localStorage.getItem(latestKey);
+    if (!raw) return null;
+    return JSON.parse(raw) as FrontPageDigest;
+  } catch {
+    return null;
+  }
+}
+
 function setCachedDigest(date: Date, digest: FrontPageDigest): void {
   try {
     const key = getCacheKey(date);
@@ -108,7 +126,12 @@ export function DigestView() {
         setCachedDigest(now, data);
         setDigest(data);
       } else {
-        setError(true);
+        const anyCached = getAnyCachedDigest();
+        if (anyCached) {
+          setDigest(anyCached);
+        } else {
+          setError(true);
+        }
       }
 
       setLoading(false);
@@ -172,7 +195,7 @@ export function DigestView() {
             <div className="sticky top-0 z-10 bg-stone-900 -mx-5 px-5 pt-5 pb-3 md:bg-stone-900/90 md:backdrop-blur-sm md:rounded-t-xl">
               <h2 className="text-2xl font-medium">
                 <a
-                  className="text-amber-500 hover:underline"
+                  className="text-amber-400 hover:underline"
                   href={item.url}
                   target="_blank"
                   rel="noreferrer"
