@@ -1,0 +1,18 @@
+{
+  "generatedAt": "2026-05-19T02:55:00.963Z",
+  "itemCount": 1,
+  "items": [
+    {
+      "objectID": "48187201",
+      "title": "Anthropic co-founder to present AI encyclical alongside Pope Leo XIV",
+      "url": "https://www.vaticannews.va/en/pope/news/2026-05/pope-leo-xiv-first-encyclical-magnifica-humanitas.html",
+      "hnUrl": "https://news.ycombinator.com/item?id=48187201",
+      "author": "cucho",
+      "points": 126,
+      "numComments": 75,
+      "createdAt": "2026-05-18T23:18:10.000Z",
+      "summary": "Pope Leo XIV's first encyclical, \"Magnifica humanitas,\" will be released and presented at the Vatican on May 25. It addresses preserving the human person in the age of artificial intelligence. The presentation will feature the Pope, Vatican Cardinals, theologians, and crucially, Christopher Olah, co-founder of Anthropic and head of AI interpretability research. This initiative marks a significant formal engagement by the Catholic Church with the profound ethical and human implications of AI, bringing together both theological perspectives and leading technical expertise in the field.",
+      "commentSummary": "The Hacker News discussion revolves around a forthcoming papal encyclical on AI, *Magnifica Humanitas*, and the involvement of an Anthropic co-founder, Christopher Olah, as a speaker. A primary theme is skepticism regarding the *motivations* behind this collaboration, with many viewing it as a PR move for Anthropic (to signal ethical AI or appeal to conservative institutions) or an attempt by the Catholic Church to regain relevance. There's also confusion, and subsequent clarification, that Olah is merely a speaker, not a co-author, of what is solely a papal document.\n\nBeyond the immediate motivations, commenters deeply engage with the potential content and historical parallels. Many draw explicit comparisons to Pope Leo XIII's *Rerum Novarum*, which addressed the Industrial Revolution, hoping this new encyclical will similarly establish a \"third way\" that prioritizes human dignity and social justice in the age of AI. Key hopes include guidance on preserving intrinsic human value amidst technological change, preventing new forms of exploitation, and addressing the ethical implications of AI's growing capabilities, including questions of consciousness and labor replacement.\n\nThe overall community sentiment is **distinctly mixed**. A significant portion expresses strong skepticism and cynicism, labeling the event as a \"PR stunt\" for Anthropic, a \"power consolidation\" between corporations and religious institutions, or simply dismissing religious authority altogether. However, a notable counter-current reveals genuine hope, even among non-religious users, for the Pope to offer much-needed moral and ethical leadership in a fragmented and increasingly dangerous world. There's an underlying recognition of AI's profound societal impact and a desire for guidance that champions human dignity and social justice."
+    }
+  ]
+}
