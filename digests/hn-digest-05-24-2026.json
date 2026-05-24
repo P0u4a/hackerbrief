@@ -1,0 +1,42 @@
+{
+  "generatedAt": "2026-05-24T02:56:01.069Z",
+  "itemCount": 3,
+  "items": [
+    {
+      "objectID": "48253386",
+      "title": "Microsoft open-sources \"the earliest DOS source code discovered to date\"",
+      "url": "https://arstechnica.com/gadgets/2026/04/microsoft-open-sources-the-earliest-dos-source-code-discovered-to-date/",
+      "hnUrl": "https://news.ycombinator.com/item?id=48253386",
+      "author": "DamnInteresting",
+      "points": 53,
+      "numComments": 11,
+      "createdAt": "2026-05-24T01:21:13.000Z",
+      "summary": "Microsoft has released the earliest discovered source code for DOS, predating the MS-DOS brand. This release includes the 86-DOS 1.00 kernel, PC-DOS 1.00 kernel development snapshots, and utilities like CHKDSK. This matters because it provides a foundational look into the operating system (originally created by Tim Paterson as 86-DOS for Intel 8086 systems, then licensed and acquired by Microsoft) that eventually became MS-DOS, establishing Microsoft's decades-long dominance in consumer PCs through its widespread adoption on IBM PC clones.",
+      "commentSummary": "The discussion revolves around Microsoft's open-sourcing of DOS 1.00. The overall sentiment is overwhelmingly **positive and nostalgic**, with many commenters idealizing an earlier era of computing. They recall a time when code was lean, optimized, and built directly for the machine, contrasting this \"brilliant\" period with modern software development often criticized for its reliance on numerous libraries, virtualization, and layers of \"bad code.\"\n\nKey themes include historical preservation and the sheer \"archeology\" involved in recovering this code. A notable insight that sparked surprise and appreciation is the fact that the source code wasn't stored digitally and had to be painstakingly transcribed and OCR'd from decades-old paper printouts. Commenters express hope for further historical releases, such as early Windows versions, viewing them as valuable resources for learning, inspiration, and understanding computing's foundations."
+    },
+    {
+      "objectID": "48253186",
+      "title": "Scammers are abusing an internal Microsoft account to send spam links",
+      "url": "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/",
+      "hnUrl": "https://news.ycombinator.com/item?id=48253186",
+      "author": "spike021",
+      "points": 32,
+      "numComments": 5,
+      "createdAt": "2026-05-24T00:51:32.000Z",
+      "summary": "Scammers are exploiting a loophole in Microsoft's system, enabling them to send fraudulent emails from `msonlineservicesteam@microsoftonline.com`, an internal address typically reserved for legitimate, critical account notifications (e.g., 2FA codes). This attack vector involves setting up new Microsoft accounts to gain access and send emails mimicking official alerts or private messages, directing users to scam sites. This matters because it compromises a highly trusted sender identity, significantly increasing the efficacy of phishing attempts and posing a severe security risk to users, potentially leading to credential theft. The issue has been active for months, impacting user security and Microsoft's reputation. Microsoft is investigating and taking action to strengthen detection and remove violating accounts.",
+      "commentSummary": "These Hacker News comments revolve around the alarming issue of spam and phishing emails originating from, or appearing to originate from, legitimate and trusted domains like Microsoft (`microsoftonline.com`), PayPal, and Booking.com. The general idea is that these aren't traditional domain compromises, but rather an exploitation of existing features within these services that lack sufficient guardrails.\n\nKey themes include the abuse of \"misplaced features\" such as email alert systems allowing arbitrary message bodies, or free-form text fields in payment requests (like PayPal's \"request money\" feature) to insert scamming instructions. Another insight points to the potential abuse of messaging or email endpoints directly on platforms like Booking.com. There's a notable concern that such issues have been reported to companies like Microsoft without apparent action.\n\nThe overall sentiment is one of significant concern and frustration. The community is actively trying to understand the technical mechanisms behind these advanced phishing attempts, which effectively bypass standard spam filtering by leveraging genuine sender domains. This reflects a mixed-to-negative sentiment towards the platforms for having these vulnerabilities and for what is perceived as a lack of responsiveness in addressing them."
+    },
+    {
+      "objectID": "48253060",
+      "title": "Wake up! 16b",
+      "url": "https://hellmood.111mb.de/wake_up_16b_writeup.html",
+      "hnUrl": "https://news.ycombinator.com/item?id=48253060",
+      "author": "MaximilianEmel",
+      "points": 64,
+      "numComments": 6,
+      "createdAt": "2026-05-24T00:30:50.000Z",
+      "summary": "This article details \"wakeup,\" a 16-byte x86 assembly program exploring algorithmic density within the demoscene. Released at a demoparty, it generates an infinite Sierpinski fractal, simultaneously drawing it to the screen and outputting its geometry as sound via the PC speaker.\n\nKey technical details:\n- It initializes to DOS text mode (0xb800 video memory), leveraging the default `0x20 0x07` screen clear pattern as an initial state.\n- The core loop uses `xor [si], al` to implement a modulo-2 addition, which mathematically corresponds to elementary cellular automaton Rule 60, generating the Sierpinski pattern.\n- `out 61h, al` directly translates the fractal's bit patterns into PC speaker square waves.\n- A critical `sub si, byte 57` (effectively -56 bytes per iteration) causes the speaker output to drop an octave by doubling the cycle length, and visually shears the fractal diagonally across the screen in 10 character pillars.\n- The emergent sound and visuals are highly sensitive to initial RAM state, including BIOS artifacts, a deliberate sizecoding technique to save bytes.\n\nWhy it matters:\n\"wakeup\" is a masterclass in sizecoding, demonstrating how complex mathematical structures and synchronized audiovisuals can emerge from just 16 bytes of machine code. It showcases extreme algorithmic density by exploiting x86 architecture, memory initialization states, and specific hardware behaviors (like the PC speaker port), revealing deep mathematical relationships and creative problem-solving within the demoscene.",
+      "commentSummary": "The Hacker News comments overwhelmingly express profound astonishment and admiration for a 16-byte demo. The core discussion centers on the incredible technical feat and \"obscene\" level of skill required to create a visually impressive program within such minuscule size constraints, especially when contrasted with larger demos that lack features like sound.\n\nKey themes include the \"masterpiece\" quality and \"sweet hack\" nature of the work, which many elevate to \"TRULY art.\" Commenters frequently mention that this type of extreme optimization and creative problem-solving is what made them \"love programming and computing.\" A notable insight is the lament that modern industry, with its focus on AIs and large-scale projects, often lacks opportunities for this kind of beautiful, low-level artistry. The initial confusion by some, mistaking \"16 byte\" for \"16 billion parameters\" (referencing LLMs), further highlights the stark contrast between current tech trends and this deeply optimized, traditional programming challenge.\n\nOverall, the community response is **overwhelmingly positive**, marked by expressions of awe, inspiration, and a sense of nostalgia for a programming ethos focused on extreme efficiency and creative constraint."
+    }
+  ]
+}
