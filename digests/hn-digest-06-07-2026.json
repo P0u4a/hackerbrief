@@ -1,0 +1,114 @@
+{
+  "generatedAt": "2026-06-07T03:38:00.404Z",
+  "itemCount": 9,
+  "items": [
+    {
+      "objectID": "48430923",
+      "title": "Tokenomics: Quantifying Where Tokens Are Used in Agentic Software Engineering",
+      "url": "https://arxiv.org/abs/2601.14470",
+      "hnUrl": "https://news.ycombinator.com/item?id=48430923",
+      "author": "Anon84",
+      "points": 31,
+      "numComments": 5,
+      "createdAt": "2026-06-07T01:37:11.000Z",
+      "summary": "LLM-based Multi-Agent (LLM-MA) systems automate complex software engineering tasks, but their operational efficiency and resource consumption are poorly understood. This study analyzes token consumption patterns in an LLM-MA system within the Software Development Life Cycle (SDLC) using the ChatDev framework with a GPT-5 model across 30 tasks.\n\nThe methodology maps ChatDev's internal phases to standardized SDLC stages (Design, Coding, Code Completion, Code Review, Testing, Documentation) to quantify input, output, and reasoning token distribution.\n\nKey findings indicate that the iterative **Code Review stage accounts for the majority of token consumption (59.4%)**. Furthermore, **input tokens consistently constitute the largest share (53.9%)**, suggesting significant inefficiencies in agentic collaboration. The research concludes that the primary cost of agentic software engineering lies in automated refinement and verification, rather than initial code generation.\n\nThis research matters by providing a novel methodology to help practitioners predict expenses, optimize workflows, and direct future research toward developing more token-efficient agent collaboration protocols.",
+      "commentSummary": "The discussion centers on observations regarding current AI coding agents, particularly their limitations and inefficiencies in software development. A key theme is the agents' tendency to generate extensive unit tests while neglecting dynamic testing, which is noted to lead to significant token consumption on \"semantically corrupt\" tests. One commenter speculates this preference might stem from general human biases against dynamic testing, which can slow development or introduce instability.\n\nA notable insight is the prediction that optimizing AI token efficiency will become a crucial engineering role, akin to past focuses on infrastructure optimization. While there's a suggestion that agents can be simply \"told\" to perform dynamic testing, the underlying sentiment highlights a practical challenge in guiding AI to optimal, cost-effective development practices.\n\nThe community response is mixed but leans towards a critically analytical perspective. It's not dismissive of AI's potential but rather focuses on identifying and discussing current shortcomings and inefficiencies in AI agent behavior, particularly concerning testing methodology and resource consumption."
+    },
+    {
+      "objectID": "48431461",
+      "title": "Valve P2P networking broken for more than 2 months",
+      "url": "https://github.com/ValveSoftware/GameNetworkingSockets/issues/398",
+      "hnUrl": "https://news.ycombinator.com/item?id=48431461",
+      "author": "babuskov",
+      "points": 7,
+      "numComments": 1,
+      "createdAt": "2026-06-07T03:21:52.000Z",
+      "summary": "A systemic issue causes high ping (~120ms) for Israeli PC players in P2P games utilizing Steam Networking (e.g., Street Fighter 6). This latency makes games unplayable. The problem is specific to PC-to-PC connections via Steam Networking; cross-play (PC-PS5) and P2P games not using Steam Networking (e.g., Tekken 8) are unaffected. The issue, reported across multiple ISPs in Israel and potentially other Middle Eastern countries, persists despite user troubleshooting and contacting ISPs. It matters because it severely impacts the playability of specific online games for a regional user base due to a platform-specific networking component.",
+      "commentSummary": "This Hacker News comment discusses a significant technical problem related to P2P technology that began as a \"major P2P issue\" in Israel and the Middle East. The general idea is that initial investigations into this localized problem have uncovered a much broader, \"worldwide problem,\" suggesting a complex and unfolding \"rabbit hole\" of discovery.\n\nThe overall sentiment expressed in this specific comment is one of serious concern and alarm. Phrases like \"major P2P issue\" and \"rabbit hole\" imply a grave and expanding situation, highlighting the potentially global scale and impact of the problem.\n\nA key theme is the rapid escalation of technical issues from regional to global, underscoring the interconnectedness of digital systems. A notable insight is how a problem's true scope may only become apparent after deeper investigation, revealing its pervasive nature. As this is only a single comment, it's impossible to determine the overall community response to the broader discussion; however, the sentiment *within this comment* is clearly negative and indicative of a serious development."
+    },
+    {
+      "objectID": "48428025",
+      "title": "Ntsc-rs – open-source video emulation of analog TV and VHS artifacts",
+      "url": "https://ntsc.rs/",
+      "hnUrl": "https://news.ycombinator.com/item?id=48428025",
+      "author": "gregsadetsky",
+      "points": 287,
+      "numComments": 68,
+      "createdAt": "2026-06-06T19:17:46.000Z",
+      "summary": "ntsc-rs is a free, open-source Rust-based video effect that accurately emulates analog TV and VHS artifacts. Unlike simpler effects, it uses algorithms modeling NTSC transmission and VHS encoding for high fidelity. Technical features include multithreading, SIMD acceleration, and real-time high-resolution performance. It integrates into video editing workflows via standalone, web, After Effects, Premiere, and OpenFX plugins.",
+      "commentSummary": "These Hacker News comments revolve around the discussion of software designed to emulate analog video artifacts, specifically NTSC, VHS, and old CRT television aesthetics. The **overall sentiment is overwhelmingly positive and enthusiastic**, with many users expressing delight, nostalgia, and a keen interest in the technical fidelity of the presented projects.\n\n**Key themes** include a strong sense of nostalgia for pre-digital video formats and their characteristic imperfections, a fascination with the technical challenges and accuracy of simulating these effects (e.g., color subcarrier phase shift, vertical oscillator errors), and the practical utility for modern video production seeking a vintage look without using cumbersome old hardware. A **notable insight** is the frequent referencing of Brian Eno's quote about \"whatever you now find weird, ugly, uncomfortable and nasty about a new medium will surely become its signature,\" which aptly encapsulates the community's embrace of these once-undesirable artifacts as cherished aesthetics. There's also discussion about expanding such emulation to audio (vinyl, VHS, ham radio).\n\nWhile largely positive, the **community response is mixed** on a personal level for some. A few commenters express a \"PTSD-like triggering\" from past professional experiences trying to *avoid* these very artifacts, highlighting that not everyone shares the same nostalgia. There's also a minor debate comparing AI-driven artifact generation versus physics-based signal emulation, with a leaning towards the latter for its authenticity. However, the technical prowess and the ability to recreate these effects are widely appreciated, with users sharing test outputs, praising performance, and sharing personal anecdotes."
+    },
+    {
+      "objectID": "48430539",
+      "title": "Public Domain Image Archive",
+      "url": "https://pdimagearchive.org/",
+      "hnUrl": "https://news.ycombinator.com/item?id=48430539",
+      "author": "davidbarker",
+      "points": 42,
+      "numComments": 10,
+      "createdAt": "2026-06-07T00:22:51.000Z",
+      "summary": "A digital collection offers 11,082 out-of-copyright works, free for public browsing, downloading, and reuse. This \"living database\" is updated weekly with new images and can be explored via categories or \"Infinite View,\" providing a continuously expanding, accessible resource of historical and cultural content.",
+      "commentSummary": "The Hacker News comments largely center on the *practicality and legal certainty* of using \"public domain\" images for commercial purposes. A key theme is the skepticism and difficulty surrounding \"copyright clearance,\" with users questioning whether platforms like Amazon KDP would accept these images without stronger proof of rights, despite the site's \"Public Domain Worldwide\" claims and disclaimers. The discussion highlights the need for robust provenance documentation when using such artwork.\n\nAnother recurring theme is the impact of generative AI. Some commenters believe genAI makes such public domain archives less relevant, as they can now create custom images. Conversely, others caution that AI-generated images will eventually face their own copyright challenges and lawsuits. The user experience of the site itself also receives mixed feedback, with some praising the \"Infinite View\" feature as engaging, while others criticize significant technical issues like broken scrolling.\n\nOverall, the community response is **mixed, but leans heavily towards caution and skepticism** regarding the commercial viability and legal safety of the images. While the concept and certain features are appreciated, the predominant sentiment is one of apprehension due to the legal ambiguities and the site's own disclaimers. Notable insights include the Standard Ebooks example, which showcases rigorous copyright clearance practices, contrasting with the concerns raised about this site's offerings."
+    },
+    {
+      "objectID": "48430860",
+      "title": "An Ohio Valley 100k-Watt FM Signal Is Severed in Broad Daylight – Radio World",
+      "url": "https://www.radioworld.com/news-and-business/headlines/an-ohio-valley-100000-watt-fm-signal-is-severed-in-broad-daylight",
+      "hnUrl": "https://news.ycombinator.com/item?id=48430860",
+      "author": "pkaeding",
+      "points": 62,
+      "numComments": 49,
+      "createdAt": "2026-06-07T01:24:15.000Z",
+      "summary": "A 100,000-watt Class C1 FM station, WDGG \"The Dawg,\" had its main antenna transmission line severed by a copper thief, Paul Crisp, who disabled site surveillance. This rendered the station off-air, now operating at significantly reduced power (approx. 10 watts) using backup equipment. The technical challenge involves replacing the specialized transmission line, which contains pressurized gases, preventing simple splicing. Repair costs are estimated at $70,000-$100,000. This incident matters because the community views it as an attack on a locally-owned business vital to local events, leading to widespread support for recovery efforts. The event highlights the vulnerability of broadcast infrastructure to copper theft, even for FM stations, and suggests maintaining spare line as a mitigation strategy.",
+      "commentSummary": "The Hacker News comments discuss a shocking incident of copper theft involving a live, high-power radio transmission line. The overwhelming sentiment is one of disbelief and horror that the perpetrator survived, given the extreme voltage and RF energy involved. There's a strong focus on the absurd economic disparity: the thief gained a paltry scrap value (hundreds to a few thousand dollars) while causing massive damage (tens of thousands of dollars) and significant operational disruption for the broadcaster. Dark humor occasionally surfaces, with mentions of \"Darwin awards\" and \"super-villain origin stories.\"\n\nKey themes include the motivations behind such destructive acts, often linked to drug addiction (\"tweakers\") and poverty. This leads to a divisive discussion on solutions, ranging from stricter regulation of scrap metal dealers and harsher penalties for thieves, to calls for greater empathy and addressing root causes like lack of opportunity, healthcare, and addiction. Technical insights also emerge, explaining how modern transmitters might have foldback protection, preventing immediate fatality but not the severe damage to specialized, pressurized transmission lines.\n\nThe overall community response is **mixed**, characterized by a potent blend of shock at the danger, frustration over the economic waste and societal impact, and a lively, often polarized debate regarding the underlying causes (individual culpability vs. societal failures) and appropriate solutions. While there's shared condemnation of the act itself, approaches to understanding and preventing it reveal significant ideological divides."
+    },
+    {
+      "objectID": "48405815",
+      "title": "Introducing Boron Buckyballs: Theory that B80 cages can’t be made is disproved",
+      "url": "https://cen.acs.org/materials/nanomaterials/buckyballs-boron-buckminster-fullerene-nanomaterials/104/web/2026/06",
+      "hnUrl": "https://news.ycombinator.com/item?id=48405815",
+      "author": "crescit_eundo",
+      "points": 48,
+      "numComments": 5,
+      "createdAt": "2026-06-04T22:58:48.000Z",
+      "summary": "Chemists experimentally observed the B80 boron buckminsterfullerene, an 80-atom cage analogous to carbon's C60, settling a debate since 2007. Produced by laser vaporization of a boron target and identified via its photoelectron spectrum, this finding directly contradicts Density Functional Theory (DFT) predictions regarding its stability, challenging the method's applicability for this system. B80 is valence-isoelectronic with C60, possessing a larger diameter and stronger electron affinity. This discovery opens possibilities for new materials, potentially serving as semiconductors, hydrogen storage, or superconductors, contingent on achieving bulk synthesis, which remains a key challenge due to boron's properties.",
+      "commentSummary": "The comments primarily express excitement and curiosity surrounding the successful creation of B80 boron buckyballs, especially highlighting how experimental results disproved prior theoretical predictions. This aspect is seen as particularly thrilling for theorists, underscoring the dynamic nature of scientific discovery.\n\nKey themes include speculation on potential applications and the unique \"weird properties\" B80 might exhibit, particularly given its less uniform structure compared to the well-known carbon C60 buckyball. The community response is overwhelmingly positive and curious, with a sense of wonder about the future implications of this discovery, rounded off with a lighthearted pun."
+    },
+    {
+      "objectID": "48431257",
+      "title": "Show HN: TakoVM – Isolated model and tool execution used by enterprises",
+      "url": "https://github.com/las7/TakoVM",
+      "hnUrl": "https://news.ycombinator.com/item?id=48431257",
+      "author": "sakuraiben",
+      "points": 5,
+      "numComments": 0,
+      "createdAt": "2026-06-07T02:42:24.000Z",
+      "summary": "Tako VM is a self-hosted platform for safely executing untrusted Python or AI-generated code. It provides isolated code execution within Docker containers, with optional gVisor sandboxing for enhanced security.\n\n**Key Technical Details:**\n*   **Isolation:** Each job runs in a separate Docker container, with seccomp filtering and network isolation (default off, configurable allowlist).\n*   **Execution Management:** Integrates a built-in job queue, automatic retries, and execution history (persisted in PostgreSQL with stdout, stderr, timing, and artifacts).\n*   **Features:** Supports idempotency keys, and a replay/fork API for debugging past jobs with identical inputs.\n*   **Interface:** Offers a REST API and Python SDK for job execution, alongside a CLI for setup, server management, and configuration.\n*   **Deployment:** Self-hosted, offline-capable, and uses PostgreSQL (auto-started via Docker) for its backend.\n\n**Why it Matters:**\nTako VM simplifies secure code execution for enterprises by offering a complete solution beyond basic sandboxing. It eliminates the need to build separate job queues (e.g., Redis/Celery), execution history, retry logic, and debugging tools. This allows for reliable and observable execution of untrusted code, crucial for applications integrating AI-generated code, while ensuring security and operational efficiency.",
+      "commentSummary": null
+    },
+    {
+      "objectID": "48431079",
+      "title": "Show HN: Oproxy – inspect and modify network traffic from the browser",
+      "url": "https://github.com/sauravrao637/oproxy",
+      "hnUrl": "https://news.ycombinator.com/item?id=48431079",
+      "author": "sauravrao637",
+      "points": 7,
+      "numComments": 1,
+      "createdAt": "2026-06-07T02:11:29.000Z",
+      "summary": "`oproxy` is a local HTTP, HTTPS, and SOCKS5 proxy designed for developers to inspect, replay, and modify network traffic during local development and testing. It targets browsers, CLIs, mobile apps, API clients, services, and test suites.\n\n**Key Technical Details:**\nIt captures HTTP and HTTPS traffic (requiring a trusted local CA for MITM), providing detailed views of requests, responses, headers, bodies, status, and timing, with specific inspectors for JWT, GraphQL, gRPC, and WebSocket data. Users can replay captured requests, build custom requests, and export data as HAR, cURL, Fetch, or Python snippets. Advanced traffic modification capabilities include rule sets, map-remote/map-local, access rules, throttling, breakpoints, mock responses, DNS overrides, capture filters, Lua scripts, and upstream proxy chaining. It integrates an OpenAI-compatible Assistant for state inspection and configuration. It can be run from source or via Docker.\n\n**Why it Matters:**\n`oproxy` is essential for debugging client applications without altering their code, testing frontends against mock APIs or local fixtures, routing subsets of traffic to staging environments, simulating network conditions (e.g., slow responses), and validating client behavior under various network manipulations like blocked, redirected, or rewritten requests.",
+      "commentSummary": "The comment introduces an experimental \"assistant,\" with the developer actively soliciting user feedback on its usability. The main idea is to encourage users to try out this new, still-in-development tool.\n\nKey themes revolve around the early, experimental stage of the assistant's development, with a particular emphasis on gathering input regarding its practical usability. A notable insight is the developer's genuine curiosity about how users interact with and perceive the assistant, indicating an iterative development approach.\n\nThe overall sentiment expressed in this comment is collaborative and open, as the developer is clearly seeking engagement and constructive input. However, based solely on this single comment, it's impossible to gauge the broader community's response (positive, negative, or mixed) to the assistant or the request for feedback."
+    },
+    {
+      "objectID": "48427643",
+      "title": "Meta confirms 1000s of Instagram accounts were hacked by abusing its AI chatbot",
+      "url": "https://this.weekinsecurity.com/meta-confirms-thousands-of-instagram-accounts-were-hacked-by-abusing-its-ai-chatbot/",
+      "hnUrl": "https://news.ycombinator.com/item?id=48427643",
+      "author": "speckx",
+      "points": 469,
+      "numComments": 166,
+      "createdAt": "2026-06-06T18:35:27.000Z",
+      "summary": "Meta notified over 20,225 Instagram users about account hijacks resulting from a vulnerability in its AI-assisted account recovery system. Hackers exploited a bug in a \"separate code path\" that allowed the AI chatbot to incorrectly send password reset links to attacker-controlled email addresses, bypassing proper verification that the provided email matched the user's account. This enabled full account takeovers, exposing contact information, dates of birth, profile data, posts, and direct messages, primarily affecting accounts without two-factor authentication. The exploit occurred from April 17 until \"this week.\" Meta has disabled the compromised AI chatbot, removed the vulnerable code path, and is auditing other chatbots. This incident underscores critical security risks when integrating AI into sensitive functions like account recovery, highlighting the need for robust validation and the importance of 2FA.",
+      "commentSummary": "The Hacker News discussion centers on a recent Meta security breach where an \"AI-assisted account recovery system\" led to thousands of Instagram accounts being compromised. The core of the conversation is a highly critical reaction to Meta's explanation, which claimed the AI tool \"worked properly\" but a \"bug in a separate code path\" was responsible. Commenters widely dismiss this as disingenuous blame-shifting, interpreting it as an attempt to deflect responsibility from their AI implementation.\n\nKey themes include profound skepticism regarding the security of integrating AI chatbots into critical functions like account recovery without sufficient safeguards or testing. Many users criticize Meta's \"AI-first\" approach, suggesting they are \"shipping the demo instead of the product\" and creating new attack surfaces. There's also significant anger over Meta's perceived technical incompetence and hypocrisy, contrasting the easily exploitable AI system with automated systems that block legitimate users with no human recourse. Concerns about privacy are high, with the exposure of direct messages and personal data highlighted as staggering.\n\nThe overall community sentiment is overwhelmingly negative, marked by strong criticism, sarcasm, and a deep distrust of Meta. Many express a desire for the company's decline, viewing this incident as another example of Meta's disregard for user security and privacy in its rush to implement AI, and lamenting the lack of human oversight in critical processes."
+    }
+  ]
+}
