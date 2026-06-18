@@ -1,0 +1,30 @@
+{
+  "generatedAt": "2026-06-18T03:37:00.197Z",
+  "itemCount": 2,
+  "items": [
+    {
+      "objectID": "48579650",
+      "title": "Midjourney Medical",
+      "url": "https://www.midjourney.com/medical/blogpost",
+      "hnUrl": "https://news.ycombinator.com/item?id=48579650",
+      "author": "ricochet11",
+      "points": 182,
+      "numComments": 177,
+      "createdAt": "2026-06-18T01:59:51.000Z",
+      "summary": "Midjourney, an AI image generation platform, is actively expanding into the medical field, indicated by a dedicated \"medical\" section on its website and an official video announcement. This initiative likely focuses on leveraging generative AI models to create or enhance medical imagery, visualizations, and related data. The significance lies in applying advanced AI capabilities to potentially aid in medical diagnostics, research, education, and healthcare innovation through sophisticated visual content.",
+      "commentSummary": "The Hacker News comments overwhelmingly express **intense skepticism, disbelief, and even ridicule** regarding Midjourney's announcement of an \"ultrasonic CT\" full-body scanning venture through \"AI spas.\" Many commenters initially question if it's an April Fools' joke or a sign of \"LLM psychosis\" within the company, highlighting the bizarre pivot from AI image generation to medical hardware. The overall sentiment is a mix of incredulity, cynicism, and outright dismissal.\n\nKey themes include widespread disbelief at the stated scale (a \"billion scans a month\") which users mathematically debunk as impossible, and deep skepticism about the medical efficacy and technical feasibility of \"ultrasonic CT\" compared to established technologies like MRI or traditional CT. Regulatory hurdles (FDA approval) and glaring privacy concerns (the word \"privacy\" isn't mentioned in the announcement) are also prominent. Notable insights come from medical professionals who warn against the dangers of mass preventative full-body scans, citing a history of such initiatives leading to false positives, patient anxiety, and unnecessary, potentially harmful, procedures. The comparison to \"Theranos vibes\" appears multiple times, underscoring the community's profound distrust.\n\nWhile a small minority express mild excitement for the ambition or potential of innovative hardware, the community response is **overwhelmingly negative and critical**. Most view it as a delusion, \"AI slop,\" or a venture rooted in Silicon Valley hubris, likely destined to be an overpriced luxury product rather than a global health solution."
+    },
+    {
+      "objectID": "48571081",
+      "title": "Lore – Open source version control system designed for scalability",
+      "url": "https://lore.org/",
+      "hnUrl": "https://news.ycombinator.com/item?id=48571081",
+      "author": "regnerba",
+      "points": 1022,
+      "numComments": 553,
+      "createdAt": "2026-06-17T14:30:27.000Z",
+      "summary": "Epic Games' Lore is a system engineered for exceptional scalability of data and teams. It's optimized for projects, such as games and entertainment, that integrate code with large binary assets, serving the needs of both developers and artists. This matters for facilitating large-scale, complex creative projects by providing robust version control for diverse asset types and collaborative workflows.",
+      "commentSummary": null
+    }
+  ]
+}
